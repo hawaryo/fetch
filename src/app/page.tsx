@@ -15,20 +15,32 @@ interface data {
 }
 export default function Home() {
   const [data, setData] = useState<data | null>(null);
-  const [loading, setloading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMassage, setErrorMassage] = useState("");
 
   async function handleClick() {
+    setErrorMassage("");
     try {
-      setloading(true);
+      setLoading(true);
       const res = await fetch(
         "https://dummyjson.com/products?limit=5&skip=0&select=title,price,thumbnail"
       );
+
+      if (!res.ok) {
+        throw new Error(`Network Error ${res.status}`);
+      }
       const json: data = await res.json();
       setData(json);
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      if (e instanceof TypeError) {
+        setErrorMassage("Please check your internet connection");
+      } else if (e instanceof Error) {
+        setErrorMassage(`unexpected error : ${e.message}`);
+      } else {
+        setErrorMassage("unexpected error");
+      }
     } finally {
-      setloading(false);
+      setLoading(false);
     }
   }
 
@@ -41,6 +53,11 @@ export default function Home() {
       <button className={buttonClass} onClick={handleClick}>
         {loading ? "loading..." : "get Products"}
       </button>
+      {errorMassage && (
+        <p className="bg-red-400  text-amber-50 p-2 w-[200px] mx-auto text-center my-2">
+          {errorMassage}
+        </p>
+      )}
       {data && (
         <div className="flex justify-center gap-2 p-4">
           {data.products.map((n: products) => (
