@@ -15,19 +15,31 @@ interface data {
 }
 export default function Home() {
   const [data, setData] = useState<data | null>(null);
+  const [loading, setloading] = useState(false);
 
   async function handleClick() {
-    const res = await fetch(
-      "https://dummyjson.com/products?limit=5&skip=0&select=title,price,thumbnail"
-    );
-    const json: data = await res.json();
-    setData(json);
+    try {
+      setloading(true);
+      const res = await fetch(
+        "https://dummyjson.com/products?limit=5&skip=0&select=title,price,thumbnail"
+      );
+      const json: data = await res.json();
+      setData(json);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setloading(false);
+    }
   }
 
+  //change button background while loading
+  const buttonClass = `border p-2 block mx-auto mt-4 ${
+    loading ? "bg-amber-200" : ""
+  }`;
   return (
     <>
-      <button className="border p-2 block mx-auto mt-4" onClick={handleClick}>
-        get Products
+      <button className={buttonClass} onClick={handleClick}>
+        {loading ? "loading..." : "get Products"}
       </button>
       {data && (
         <div className="flex justify-center gap-2 p-4">
