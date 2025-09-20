@@ -20,6 +20,23 @@ const eslintConfig = [
       "next-env.d.ts",
     ],
   },
+  {
+    rules: {
+      quotes: ["error", "double"],
+      "prefer-const": "error",
+      "no-console": "warn",
+      eqeqeq: ["error", "always"],
+      // Additional strict rules
+      strict: ["error", "global"],
+      "no-unused-vars": ["error", { args: "none", ignoreRestSiblings: true }],
+      "no-shadow": "warn",
+      "consistent-return": "error",
+      "no-var": "error",
+      "prefer-arrow-callback": "error",
+      "@next/next/no-img-element": "off",
+      "no-console": "warn",
+    },
+  },
 ];
 
 export default eslintConfig;
