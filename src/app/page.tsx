@@ -84,7 +84,7 @@ export default function Home() {
       {data && (
         <>
           {/* product cards */}
-          <div className="grid [grid-template-columns:repeat(auto-fit,minmax(15.5rem,17rem))] content-center items-stretch gap-2 p-4 max-w-[109rem] mx-auto">
+          <div className="grid [grid-template-columns:repeat(auto-fit,minmax(15.5rem,17rem))] justify-center items-stretch gap-2 p-4 max-w-[109rem] mx-auto">
             {data.products.map((n: products) => (
               <ProductCard
                 key={n.id}
