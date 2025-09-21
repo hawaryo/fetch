@@ -17,14 +17,14 @@ interface data {
 export default function Home() {
   const [data, setData] = useState<data | null>(null);
   const [action, setAction] = useState("");
-  const [errorMassage, setErrorMassage] = useState("");
+  const [errorMessage, seterrorMessage] = useState("");
   const [pageNum, setPageNum] = useState(1);
 
   const NumberOfCards = 5;
   const MaxNumOfPages = data ? Math.ceil(data.total / NumberOfCards) : 0;
 
   async function handleClick(skip: number, actionName: string) {
-    setErrorMassage("");
+    seterrorMessage("");
 
     try {
       setAction(actionName);
@@ -39,11 +39,11 @@ export default function Home() {
       setData(json);
     } catch (e) {
       if (e instanceof TypeError) {
-        setErrorMassage("Please check your internet connection");
+        seterrorMessage("Please check your internet connection");
       } else if (e instanceof Error) {
-        setErrorMassage(`unexpected error : ${e.message}`);
+        seterrorMessage(`unexpected error : ${e.message}`);
       } else {
-        setErrorMassage("unexpected error");
+        seterrorMessage("unexpected error");
       }
     } finally {
       setAction("");
@@ -76,9 +76,9 @@ export default function Home() {
       >
         {action === "initialLoad" ? "loading..." : "get Products"}
       </button>
-      {errorMassage && (
+      {errorMessage && (
         <p className="bg-red-400 text-amber-50 p-2 w-[12rem] mx-auto text-center my-2">
-          {errorMassage}
+          {errorMessage}
         </p>
       )}
       {data && (
